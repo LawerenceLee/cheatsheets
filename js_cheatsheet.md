@@ -433,6 +433,7 @@ See export as too (above)
 ## AJAX
 
 ### GET request
+
     const xhr = new XMLHttpRequest();
     const url = "your_URL";
     xhr.responseType = 'json';
@@ -442,3 +443,142 @@ See export as too (above)
         }
     };
     xhr.open('GET', url)
+
+### POST request
+
+    const xhr = new XMLHttpRequest();
+    const url = 'https://api-to-call.com/endpoint';
+    const data = JSON.stringify({id: '200'});
+
+    xhr.responseType = 'json';
+    xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+        console.log(xhr.response);
+    }
+    }
+    xhr.open('POST', url);
+    xhr.send(data)
+
+### jQuery 
+
+#### AJAX GET
+
+    $.ajax({
+        url: 'https://api-to-call.com/endpoint',
+        type: 'GET',
+        dataType: 'json',
+        success(response) {
+            console.log(response)
+        },
+        error(jqXHR, status, errorThrown) {
+            console.log(jqXHR)
+        }
+    });
+
+#### AJAX POST
+
+    $.ajax({
+        url: 'https://api-to-call.com/endpoint',
+        type: 'POST',
+        data: JSON.stringify({id: 200}),
+        dataType: 'json',
+        success(response) {
+            console.log(response);
+        },
+        error(jqXHR, status, errorThrown) {
+            console.log(jqXHR);
+        }
+    });
+
+#### $.get()
+
+    $.get('https://api-to-call.com/endpoint', response => {...}, 'json');
+
+####$.post()
+
+    $.post({
+        url: urlWithKey, 
+        data: JSON.stringify({longUrl: urlToShorten}), 
+        dataType: 'json', 
+        contentType: 'application/json', 
+        success(response) {
+            console.log(response);
+        },
+        error(jqXHR, status, errorThrown) {
+            console.log(jqXHR);
+        }
+    });
+
+#### $.getJSON()
+
+    $.getJSON(url, 
+       response => {
+           console.log(response)
+    });
+
+### fetch() GET REQUEST
+
+    fetch('https://api-to-call.com/endpoint').then(response => {
+      if (response.ok) {
+        return response.json();
+      } 
+      throw new Error('Request failed!');
+    }, networkError => console.log(networkError.message)
+    ).then(jsonResponse => jsonResponse)
+
+### fetch() POST REQUEST
+
+    fetch('https://api-to-call.com/endpoint',
+    {
+        method: 'POST',
+        body: JSON.stringify({id: '200'}),
+    }
+    ).then(
+    response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Request failed!');
+        },
+        networkError => console.log(networkError.message)
+    ).then(
+        jsonResponse => jsonResponse
+    )
+
+### async GET Requests (ES7)
+
+    async function getData() {
+        try {
+            let response = await fetch('https://api-to-call.com/endpoint')
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                return jsonResponse;
+            }
+            throw new Error('Request failed!');
+        }
+        catch(error) {
+            console.log(error);
+        }
+    }
+
+### async POST Requests
+
+    async function getData() {
+        try {
+            let response = await fetch(
+                'https://api-to-call.com/endpoint', 
+                {
+                    method: 'POST',
+                    body: JSON.stringify({id: 200})
+                }
+            );
+            if (response.ok) {
+                let jsonResponse = await response.json();
+                return jsonResponse;
+            }
+            throw new Error('Request failed!');
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
