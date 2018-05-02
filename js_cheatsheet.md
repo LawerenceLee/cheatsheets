@@ -236,6 +236,77 @@ Returns true if the condition is met by all elements within a list.
         },
     }
 ***
+## Object Constructors
+
+    function personConstructor(name, age) {
+        var self = this;
+        var privateVariable = "This variable is private";
+        var privateMethod = function() {
+            console.log("this is a private method for "copy + self.name);
+            console.log(self);
+        }
+        this.name = name;
+        this.age = age;
+        this.greet = function() {
+            console.log("Hello my name is " + this.name + " and I am " + this.age + " years old!");
+        }
+    }
+
+    // the 'new' keyword causes our constructor to return the object we expected.
+
+    var anika = new personConstructor('Anika', 33);
+    anika.greet();
+    console.log(anika);
+
+## Extending Objects with Prototype
+
+    obj1.newProperty = "newProperty!";
+    obj1.__proto__.anotherProperty = "anotherProperty!";
+    console.log(obj1.anotherProperty);      // anotherProperty!
+    console.log(obj1.newProperty);          // newProperty!
+    
+    // What about obj2?
+    console.log(obj2.newProperty);         // undefined
+    console.log(obj2.anotherProperty);     // anotherProperty! <= THIS IS THE COOL PART!
+
+## [Object Constructor Inheritance](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance)
+
+    // Initial constructor
+    function Person(first, last, age, gender, interests) {
+        this.name = {
+            first,
+            last
+        };
+        this.age = age;
+        this.gender = gender;
+        this.interests = interests;
+    };
+
+    // Inheritence
+    function Teacher(first, last, age, gender, interests, subject) {
+        Person.call(this, first, last, age, gender, interests);
+
+        this.subject = subject;
+    }
+
+    // Example without parameters
+    function Brick() {
+        this.width = 10;
+        this.height = 20;
+    }
+
+    function BlueGlassBrick() {
+        Brick.call(this);
+
+        this.opacity = 0.5;
+        this.color = 'blue';
+    }
+
+### Referencing Constructors
+    this.constructor
+
+    ex: this.constructor.name
+***
 ## Classes
 
     class Dog {
@@ -292,6 +363,7 @@ Returns true if the condition is met by all elements within a list.
     }
 
 ### Static Methods
+Methods accessible from the Class, not the instance
 
     class Animal {
         constructor(name) {
@@ -494,7 +566,7 @@ See export as too (above)
 
     $.get('https://api-to-call.com/endpoint', response => {...}, 'json');
 
-####$.post()
+#### $.post()
 
     $.post({
         url: urlWithKey, 
