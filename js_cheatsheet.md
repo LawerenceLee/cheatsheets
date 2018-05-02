@@ -654,3 +654,38 @@ See export as too (above)
             console.log(error);
         }
     };
+
+***    
+## Nodemon
+Using nodemon instead of the node command in your terminal will automatically re-run your JavaScript file or project whenever you save something. That means no more manual server restarts!
+
+    $ npm install -g nodemon (may require sudo)
+    // The -g is asking npm to install package globally
+***
+## [Nodenv](https://ekalinin.github.io/nodeenv/)
+
+    Usage
+Install new environment:
+
+    $ nodeenv env
+
+Activate new environment:
+
+    $ source env/bin/activate
+
+Deactivate environment:
+
+    (env) $ deactivate_node
+
+Installing package
+
+    (my_env) $ npm install -g coffee-script
+    (my_env) $ which coffee
+    // /home/User/virtualenvs/my_env/bin/coffee
+***
+## bower
+To manage our front-end dependencies, we'll be using another package manager called bower. This will save us from having to hunt down the perfect CDN for important libraries like jQuery and Bootstrap. There are many alternatives to bower (e.g. browserify or webpack).
+
+    $ npm install -g bower (may require sudo)
+***
+
