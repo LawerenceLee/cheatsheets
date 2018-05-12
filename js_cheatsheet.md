@@ -236,6 +236,77 @@ Returns true if the condition is met by all elements within a list.
         },
     }
 ***
+## Object Constructors
+
+    function personConstructor(name, age) {
+        var self = this;
+        var privateVariable = "This variable is private";
+        var privateMethod = function() {
+            console.log("this is a private method for "copy + self.name);
+            console.log(self);
+        }
+        this.name = name;
+        this.age = age;
+        this.greet = function() {
+            console.log("Hello my name is " + this.name + " and I am " + this.age + " years old!");
+        }
+    }
+
+    // the 'new' keyword causes our constructor to return the object we expected.
+
+    var anika = new personConstructor('Anika', 33);
+    anika.greet();
+    console.log(anika);
+
+## Extending Objects with Prototype
+
+    obj1.newProperty = "newProperty!";
+    obj1.__proto__.anotherProperty = "anotherProperty!";
+    console.log(obj1.anotherProperty);      // anotherProperty!
+    console.log(obj1.newProperty);          // newProperty!
+    
+    // What about obj2?
+    console.log(obj2.newProperty);         // undefined
+    console.log(obj2.anotherProperty);     // anotherProperty! <= THIS IS THE COOL PART!
+
+## [Object Constructor Inheritance](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance)
+
+    // Initial constructor
+    function Person(first, last, age, gender, interests) {
+        this.name = {
+            first,
+            last
+        };
+        this.age = age;
+        this.gender = gender;
+        this.interests = interests;
+    };
+
+    // Inheritence
+    function Teacher(first, last, age, gender, interests, subject) {
+        Person.call(this, first, last, age, gender, interests);
+
+        this.subject = subject;
+    }
+
+    // Example without parameters
+    function Brick() {
+        this.width = 10;
+        this.height = 20;
+    }
+
+    function BlueGlassBrick() {
+        Brick.call(this);
+
+        this.opacity = 0.5;
+        this.color = 'blue';
+    }
+
+### Referencing Constructors
+    this.constructor
+
+    ex: this.constructor.name
+***
 ## Classes
 
     class Dog {
@@ -292,6 +363,7 @@ Returns true if the condition is met by all elements within a list.
     }
 
 ### Static Methods
+Methods accessible from the Class, not the instance
 
     class Animal {
         constructor(name) {
@@ -494,7 +566,7 @@ See export as too (above)
 
     $.get('https://api-to-call.com/endpoint', response => {...}, 'json');
 
-####$.post()
+#### $.post()
 
     $.post({
         url: urlWithKey, 
@@ -583,6 +655,7 @@ See export as too (above)
         }
     };
 
+<<<<<<< HEAD
 *** 
 ## MongoDB 
 
@@ -624,3 +697,121 @@ See export as too (above)
 | **Create** a new collection in the current db | db.createCollection("COLLECTION_NAME") |
 | **Destroy** a collection | db.COLLECTION_NAME.drop() |
 
+=======
+***    
+## Nodemon
+Using nodemon instead of the node command in your terminal will automatically re-run your JavaScript file or project whenever you save something. That means no more manual server restarts!
+
+    $ npm install -g nodemon (may require sudo)
+    // The -g is asking npm to install package globally
+***
+## [Nodenv](https://ekalinin.github.io/nodeenv/)
+
+    Usage
+Install new environment:
+
+    $ nodeenv env
+
+Activate new environment:
+
+    $ source env/bin/activate
+
+Deactivate environment:
+
+    (env) $ deactivate_node
+
+Installing package
+
+    (my_env) $ npm install -g coffee-script
+    (my_env) $ which coffee
+    // /home/User/virtualenvs/my_env/bin/coffee
+***
+## bower
+To manage our front-end dependencies, we'll be using another package manager called bower. This will save us from having to hunt down the perfect CDN for important libraries like jQuery and Bootstrap. There are many alternatives to bower (e.g. browserify or webpack).
+
+    $ npm install -g bower (may require sudo)
+***
+
+## Express
+
+### Routing
+
+    app.HTTP_VERB('URL', function (req, res){});  // HTTP_VERB is either 'get' or 'post' etc...
+
+    // root route
+    app.get('/', function (req, res){
+        res.render('index', {title: "my Express project"});
+    });
+
+    // route to process new user form data:
+    app.post('/users', function (req, res){
+        //code to add user to db goes here!
+    })
+
+### Redirecting
+
+    // root route
+    app.get('/', function (req, res){
+        res.render('index', {title: "my Express project"});
+    });
+    // route to process new user form data:
+    app.post('/users', function (req, res){
+        // code to add user to db goes here!
+        // redirect the user back to the root route. 
+        // All we do is specify the URL we want to go to:
+        res.redirect('/');
+    })
+
+### Processing Post Data
+
+    // require body-parser
+    var bodyParser = require('body-parser');
+    // use it!
+    app.use(bodyParser.urlencoded({extended: true}));
+
+    // index.ejs
+    <form action='/users' method='post'>
+        Name: <input type='text' name='name'>
+        Email: <input type='text' name='email'>
+        <input type='submit' value='create user'>
+    </form>
+
+    // Post Route
+    // route to process new user form data:
+    app.post('/users', function (req, res){
+        console.log("POST DATA \n\n", req.body)
+        //code to add user to db goes here!
+        // redirect the user back to the root route.  
+        res.redirect('/')
+    });
+
+### Data from URL
+    app.get("/users/:id", function (req, res){
+        console.log("The user id requested is:", req.params.id);
+        // just to illustrate that req.params is usable here:
+        res.send("You requested the user with id: " + req.params.id);
+        // code to get user from db goes here, etc...
+    });
+
+### Session 
+
+    var session = require('express-session');
+    // original code:
+    var app = express();
+    // more new code:
+    app.use(session({
+        secret: 'keyboardkitteh',
+        resave: false,
+        saveUninitialized: true,
+        cookie: { maxAge: 60000 }
+    }))
+
+    app.post('/users', function (req, res){
+        // set the name property of session.  
+        req.session.name = req.body.name;
+        console.log(req.session.name);
+        //code to add user to db goes here!
+        // redirect the user back to the root route. 
+        res.redirect('/');
+    });
+>>>>>>> cc3e508310cc6208aaa9ce594620436ffaa30260
