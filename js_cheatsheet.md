@@ -582,3 +582,45 @@ See export as too (above)
             console.log(error);
         }
     };
+
+*** 
+## MongoDB 
+
+    $ brew install Mongodb
+    $ cd
+    $ mkdir -p /data/db
+
+    // To Run it
+    $ sudo mongod 
+
+    // To connect
+    // enter a new terminal (DO NOT CLOSE THE ONE THE SERVER IS RUNNING IN)
+    $ mongo
+
+    // Shutting Down Mongo
+    Ctrl-C
+    // or if your mongod window got closed
+    $ ps -ax | grep mongo
+    $ sudo kill <process ID>
+
+### SQL vs NoSQL
+
+| Database Type: | SQL | Mongo |
+| :------------ | :-: | :---: |
+| **Database** | Schema | Database (db) |
+| **Collection of related records** | Tables | Collections |
+| **A Single Record** | Row/Record | Document |
+<br>
+
+### Shell Commands
+
+| Description                                                | Command        |
+| :--------------------------------------------------------- | :------------: |
+| **Show all databases** available on our current MongoDB server | show dbs       |
+| **Show current database** selected	                         | db             |
+| **Change to another database** Note: If the database you're trying to switch to does not exist, Mongo shell will create a new database and switch to it. | use <DB_NAME> |
+| **Delete database** Note: db.dropDatabase() will delete the current database in use. | db.dropDatabase() |
+| **View all** collections in a MongoDB | show collections |
+| **Create** a new collection in the current db | db.createCollection("COLLECTION_NAME") |
+| **Destroy** a collection | db.COLLECTION_NAME.drop() |
+
