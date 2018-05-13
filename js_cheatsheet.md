@@ -655,7 +655,6 @@ See export as too (above)
         }
     };
 
-<<<<<<< HEAD
 *** 
 ## MongoDB 
 
@@ -697,7 +696,6 @@ See export as too (above)
 | **Create** a new collection in the current db | db.createCollection("COLLECTION_NAME") |
 | **Destroy** a collection | db.COLLECTION_NAME.drop() |
 
-=======
 ***    
 ## Nodemon
 Using nodemon instead of the node command in your terminal will automatically re-run your JavaScript file or project whenever you save something. That means no more manual server restarts!
@@ -814,4 +812,3 @@ To manage our front-end dependencies, we'll be using another package manager cal
         // redirect the user back to the root route. 
         res.redirect('/');
     });
->>>>>>> cc3e508310cc6208aaa9ce594620436ffaa30260
