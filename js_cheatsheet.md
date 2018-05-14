@@ -1128,3 +1128,61 @@ cryptographic keys, or cryptographic hashes if they are relevant to security.
 
 If you are using bcrypt on a simple script, using the sync mode is perfectly fine. However, if you are using bcrypt on a server, the async mode is recommended. This is because the hashing done by bcrypt is CPU intensive, so the sync version will block the event loop and prevent your application from servicing any other inbound requests or events.
 ***
+## Angular
+
+### Installing
+    npm install -g @angular/cli
+
+### Creating a new app
+    ng new <appName>
+
+### The Building of the dist dir
+    ng build --watch 
+
+Need to tell express where Angular app is located:
+```javascript
+app.use(express.static( __dirname + '/my-angular-app/dist/my-angular-app' ));
+```
+
+### Creating a service
+    ng g s <nameOfService>
+    ex:
+    ng g s http
+
+### Registering a service (inside app.module.ts)
+```javascript
+import { <serviceName> } from '<filePath>';
+// example
+import { HttpService } from "./http.service";
+
+// add Service to providers in @Component
+providers: [HttpService],
+```
+
+### HttpClient
+```javascript
+// if service requires http requests
+// import HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
+// add HttpClientModule to Imports array
+imports: [HttpClientModule]
+```
+
+### Dependency Injection
+```javascript 
+// IN .../app/http.service.ts
+
+import { HttpClient } from '@angular/common/http';
+export class HttpService {
+    constructor(private _http: HttpClient){}
+}
+
+// IN .../app/app.component.ts
+
+import { HttpService } from './http.service';
+export class AppComponent {
+   title = 'app';
+   constructor(private _httpService: HttpService){}
+ }
+
+```
