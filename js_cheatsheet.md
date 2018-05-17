@@ -812,3 +812,20 @@ To manage our front-end dependencies, we'll be using another package manager cal
         // redirect the user back to the root route. 
         res.redirect('/');
     });
+
+
+## Angular Filters
+
+
+| Name | Description |
+| :--: | :---------- |
+| filter | Selects a subset of items from array and returns it as a new array. |
+| currency | Formats a number as a currency (ie $1,234.56). When no currency symbol is provided, default symbol for current locale is used. |
+| number | Formats a number as text. |
+| date | Formats date to a string based on the requested format. |
+| json | Allows you to convert a JavaScript object into JSON string. |
+| lowercase	| Converts string to lowercase. |
+| uppercase	| Converts string to uppercase. |
+| limitTo | Creates a new array or string containing only a specified number of elements. The elements are taken from either the beginning or the end of the source array, string or number, as specified by the value and sign (positive or negative) of limit. Other array-like objects are also supported (e.g. array subclasses, NodeLists, jqLite/jQuery collections etc). If a number is used as input, it is converted to a string. |
+| orderBy | Returns an array containing the items from the specified collection, ordered by a comparator function based on the values computed using the expression predicate. |
+
