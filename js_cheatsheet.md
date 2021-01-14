@@ -1141,7 +1141,6 @@ async function checkUser(username, password) {
     if(match) {
         //login
     }
-
     //...
 }
 ```
@@ -1196,9 +1195,17 @@ If you are using bcrypt on a simple script, using the sync mode is perfectly fin
 
 ### Creating a new app
     ng new <appName>
+    ng new <appName> --routing
 
 ### The Building of the dist dir
     ng build --watch 
+
+### Generating Component
+    ng g c component_name
+
+### Generating AppRouting Module
+    ng generate module app-routing --flat --module=app
+    // use <router-outlet></router-outlet>
 
 Need to tell express where Angular app is located:
 ```javascript
@@ -1247,7 +1254,79 @@ export class AppComponent {
  }
 
 ```
-=======
->>>>>>> cc3e508310cc6208aaa9ce594620436ffaa30260
->>>>>>> 1d45bd3244efa663326abe2420d27e9a8eae5ae7
->>>>>>> dc8f4b5b51732a889125593ed6571a25a7a6f07d
+
+## ROUTING
+```html
+<!-- .../app/app.component.html - Redirecting via links -->
+<button [routerLink]="['/alpha']">Load Alpha</button>
+<button [routerLink]="['/beta']">Load Beta</button>
+<router-outlet></router-outlet> 
+```
+
+```javascript
+
+//.../app/app-routing.module.ts
+import { AlphaComponent } from './alpha/alpha.component';
+import { BetaComponent } from './beta/beta.component';
+import { GammaComponent } from './gamma/gamma.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+const routes: Routes = [
+  { path: 'alpha',component: AlphaComponent },
+  { path: 'beta',component: BetaComponent },
+  // use a colon and parameter name to include a parameter in the url
+  { path: 'gamma/:id', component: GammaComponent },
+  // redirect to /alpha if there is nothing in the url
+  { path: '', pathMatch: 'full', redirectTo: '/alpha' },
+  // the ** will catch anything that did not match any of the above routes
+];
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+// .../app/app.module.ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AlphaComponent } from './alpha/alpha.component';
+import { BetaComponent } from './beta/beta.component';
+import { GammaComponent } from './gamma/gamma.component';
+@NgModule({
+  declarations: [AppComponent, AlphaComponent, BetaComponent, GammaComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+// .../app/app.component.ts
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router
+  ) {}
+  ngOnInit() {
+    this._route.params.subscribe((params: Params) => console.log(params['id']));
+  }
+  goHome() {
+    this._router.navigate(['/home']);
+  }
+ 
+}
+
+// .../server.js
+// this route will be triggered if any of the routes above did not match
+app.all("*", (req,res,next) => {
+  res.sendFile(path.resolve("./public/dist/index.html"))
+});
+```
